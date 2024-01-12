@@ -101,6 +101,8 @@ func getCalibrationValPart2(line string) (int, error) {
 	return int(calValInt), nil
 }
 
+// normalizeNumber maps the alphabetical version of digits into their numerical format.
+// This allows us to sum up the values for part 2.
 func normalizeNumber(num string) string {
 	numberMap := map[string]string{
 		"1":     "1",
