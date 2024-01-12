@@ -9,9 +9,10 @@ import (
 )
 
 func main() {
-	inputFile, err := os.Open("input_example.txt")
+	inputFilePath := os.Args[1]
+	inputFile, err := os.Open(inputFilePath)
 	if err != nil {
-		println(fmt.Sprintf("cannot read input file: %s", err.Error()))
+		println(fmt.Sprintf("cannot read input file at %s: %s", inputFilePath, err.Error()))
 		return
 	}
 	defer inputFile.Close()
@@ -29,10 +30,13 @@ func main() {
 		sum += calVal
 		lineNum += 1
 	}
-	println("Sum: %d", sum)
+	println(fmt.Sprintf("Sum: %d", sum))
 }
 
 func getCalibrationVal(line string) (int, error) {
+	// Because a valid line could have only a single digit, we need to look for the first
+	// and last value separately. In the case of a single digit, it functions as the first
+	// and last.
 	calValFirstPattern, err := regexp.Compile("^.*?(?P<first>[0-9]).*$")
 	if err != nil {
 		return 0, fmt.Errorf("cannot compile regex first pattern: %s", err.Error())
